@@ -1,0 +1,16 @@
+%li[user_filter]{ highlightable(dom_id(user_filter, :tools)) }
+
+  .strip{:style => "background:palegreen;"} #{t(user_filter.asset)}
+
+  .indentfull
+    .tools{ invisible, :id => dom_id(user_filter, :tools) }
+      = link_to_confirm(user_filter)
+      
+    -#= link_to(h(user_filter.name), :controller => user_filter.asset, :action => "search") << " &ndash; "
+    = link_to(h(user_filter.name), "#{send("search_#{user_filter.asset}_path")}?#{user_filter.criteria}") << " &ndash; "
+
+    %tt
+      = h(user_filter.description) unless user_filter.description.blank?
+      
+    %dt{ :style => "padding: 2px 0px 0px 0px" }
+      = t(:added_by, :time_ago => time_ago_in_words(user_filter.created_at), :user => (user_filter.user.id == @current_user.id ? t(:me) : h(user_filter.user.full_name)))

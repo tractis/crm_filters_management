@@ -1,0 +1,9 @@
+.title_tools
+
+.title
+
+.list#user_filters
+  - unless @user_filters.blank?
+    = render :partial => "user_filter", :collection => @user_filters
+  - else
+    = render :partial => "empty"

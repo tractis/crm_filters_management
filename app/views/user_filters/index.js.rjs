@@ -1,0 +1,5 @@
+unless @user_filters.blank?
+  page[:filters].replace_html render(:partial => "user_filter", :collection => @user_filters)
+else
+  page[:filters].replace_html render(:partial => "empty")
+end
