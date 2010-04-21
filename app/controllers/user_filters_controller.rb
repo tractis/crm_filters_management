@@ -20,16 +20,17 @@ class UserFiltersController < ApplicationController
   #----------------------------------------------------------------------------
   def destroy
     @user_filter = UserFilter.find(params[:id])
-    @user_filter.destroy if @user_filter
 
     respond_to do |format|
-      format.html { respond_to_destroy(:html) }
-      format.js   { respond_to_destroy(:ajax) }
-      format.xml  { head :ok }
+      if @user_filter.destroy
+        format.js   # destroy.js.rjs
+        format.xml  { head :ok }
+      else
+        flash[:warning] = t(:msg_cant_delete_user_filter, @user_filter.name)
+        format.js   # destroy.js.rjs
+        format.xml  { render :xml => @user_filter.errors, :status => :unprocessable_entity }
+      end
     end
-
-  rescue ActiveRecord::RecordNotFound
-    respond_to_not_found(:html, :js, :xml)
   end
 
   # GET /mailings/1/confirm                                             AJAX
@@ -39,18 +40,6 @@ class UserFiltersController < ApplicationController
 
   rescue ActiveRecord::RecordNotFound
     respond_to_not_found(:js, :xml)
-  end
-
-  private
-
-  #----------------------------------------------------------------------------
-  def respond_to_destroy(method)
-    if method == :ajax
-      @user_filter = UserFilter.find(:all, :conditions => { :user_id => @current_user.id })
-    else # :html request
-      flash[:notice] = "#{t(:asset_deleted, @user_filter.name)}"
-      redirect_to(user_filters_path)
-    end
   end
 
 end

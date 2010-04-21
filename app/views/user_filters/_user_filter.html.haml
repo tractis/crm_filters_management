@@ -6,7 +6,6 @@
     .tools{ invisible, :id => dom_id(user_filter, :tools) }
       = link_to_confirm(user_filter)
       
-    -#= link_to(h(user_filter.name), :controller => user_filter.asset, :action => "search") << " &ndash; "
     = link_to(h(user_filter.name), "#{send("search_#{user_filter.asset}_path")}?#{user_filter.criteria}") << " &ndash; "
 
     %tt

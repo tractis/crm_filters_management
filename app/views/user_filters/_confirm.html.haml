@@ -1,5 +1,4 @@
 .confirm[@user_filter, :confirm]
-  #{t :user_filter_confirm_delete}
   #{t :delete} <b>#{@user_filter.name}</b>?&nbsp;
   = link_to_delete(@user_filter) << " : "
   = link_to_function(t(:no_button), "crm.flick('#{dom_id(@user_filter, :confirm)}', 'remove')")
